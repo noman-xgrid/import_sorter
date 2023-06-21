@@ -13,14 +13,10 @@ ImportSortData sortImports(
   bool noComments, {
   String? filePath,
 }) {
-  String dartImportComment(bool emojis) =>
-      '//${emojis ? ' 🎯 ' : ' '}Dart imports:';
-  String flutterImportComment(bool emojis) =>
-      '//${emojis ? ' 🐦 ' : ' '}Flutter imports:';
-  String packageImportComment(bool emojis) =>
-      '//${emojis ? ' 📦 ' : ' '}Package imports:';
-  String projectImportComment(bool emojis) =>
-      '//${emojis ? ' 🌎 ' : ' '}Project imports:';
+  String dartImportComment(bool emojis) => '//${emojis ? ' 🎯 ' : ' '}Dart imports:';
+  String flutterImportComment(bool emojis) => '//${emojis ? ' 🐦 ' : ' '}Flutter imports:';
+  String packageImportComment(bool emojis) => '//${emojis ? ' 📦 ' : ' '}Package imports:';
+  String projectImportComment(bool emojis) => '//${emojis ? ' 🌎 ' : ' '}Project imports:';
 
   final beforeImportLines = <String>[];
   final afterImportLines = <String>[];
@@ -30,27 +26,26 @@ ImportSortData sortImports(
   final packageImports = <String>[];
   final projectRelativeImports = <String>[];
   final projectImports = <String>[];
+  final widgetImports = <String>[];
 
   bool noImports() =>
       dartImports.isEmpty &&
       flutterImports.isEmpty &&
       packageImports.isEmpty &&
       projectImports.isEmpty &&
+      widgetImports.isEmpty &&
       projectRelativeImports.isEmpty;
 
   var isMultiLineString = false;
 
   for (var i = 0; i < lines.length; i++) {
     // Check if line is in multiline string
-    if (_timesContained(lines[i], "'''") == 1 ||
-        _timesContained(lines[i], '"""') == 1) {
+    if (_timesContained(lines[i], "'''") == 1 || _timesContained(lines[i], '"""') == 1) {
       isMultiLineString = !isMultiLineString;
     }
 
     // If line is an import line
-    if (lines[i].startsWith('import ') &&
-        lines[i].endsWith(';') &&
-        !isMultiLineString) {
+    if (lines[i].startsWith('import ') && lines[i].endsWith(';') && !isMultiLineString) {
       if (lines[i].contains('dart:')) {
         dartImports.add(lines[i]);
       } else if (lines[i].contains('package:flutter/')) {
@@ -59,6 +54,8 @@ ImportSortData sortImports(
         projectImports.add(lines[i]);
       } else if (lines[i].contains('package:')) {
         packageImports.add(lines[i]);
+      } else if (lines[i].contains('widget:')) {
+        widgetImports.add(lines[i]);
       } else {
         projectRelativeImports.add(lines[i]);
       }
@@ -125,16 +122,17 @@ ImportSortData sortImports(
     sortedLines.addAll(packageImports);
   }
   if (projectImports.isNotEmpty || projectRelativeImports.isNotEmpty) {
-    if (dartImports.isNotEmpty ||
-        flutterImports.isNotEmpty ||
-        packageImports.isNotEmpty) {
+    if (dartImports.isNotEmpty || flutterImports.isNotEmpty || packageImports.isNotEmpty || widgetImports.isNotEmpty) {
       sortedLines.add('');
     }
     if (!noComments) sortedLines.add(projectImportComment(emojis));
     projectImports.sort();
+    widgetImports.sort();
+
     projectRelativeImports.sort();
     sortedLines.addAll(projectImports);
     sortedLines.addAll(projectRelativeImports);
+    sortedLines.addAll(widgetImports);
   }
 
   sortedLines.add('');
@@ -155,8 +153,7 @@ ImportSortData sortImports(
   final original = lines.join('\n') + '\n';
   if (exitIfChanged && original != sortedFile) {
     if (filePath != null) {
-      stdout.writeln(
-          '\n┗━━🚨 File ${filePath} does not have its imports sorted.');
+      stdout.writeln('\n┗━━🚨 File ${filePath} does not have its imports sorted.');
     }
     exit(1);
   }
@@ -169,8 +166,7 @@ ImportSortData sortImports(
 
 /// Get the number of times a string contains another
 /// string
-int _timesContained(String string, String looking) =>
-    string.split(looking).length - 1;
+int _timesContained(String string, String looking) => string.split(looking).length - 1;
 
 /// Data to return from a sort
 class ImportSortData {
