@@ -180,7 +180,13 @@ ImportSortData sortImports(
     sortedLines.addAll(packageImports);
   }
   if (projectImports.isNotEmpty || projectRelativeImports.isNotEmpty) {
-    if (dartImports.isNotEmpty || flutterImports.isNotEmpty || packageImports.isNotEmpty || widgetImports.isNotEmpty) {
+    if (dartImports.isNotEmpty ||
+        flutterImports.isNotEmpty ||
+        packageImports.isNotEmpty ||
+        widgetImports.isNotEmpty ||
+        constantImports.isNotEmpty ||
+        modelImports.isNotEmpty ||
+        controllerImports.isNotEmpty) {
       sortedLines.add('');
     }
 
