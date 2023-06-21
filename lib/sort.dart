@@ -195,7 +195,6 @@ ImportSortData sortImports(
     projectRelativeImports.sort();
     sortedLines.addAll(projectImports);
     sortedLines.addAll(projectRelativeImports);
-    sortedLines.addAll(widgetImports);
   }
 
   sortedLines.add('');
