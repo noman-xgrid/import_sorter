@@ -17,6 +17,7 @@ ImportSortData sortImports(
   String flutterImportComment(bool emojis) => '//${emojis ? ' 🐦 ' : ' '}Flutter imports:';
   String packageImportComment(bool emojis) => '//${emojis ? ' 📦 ' : ' '}Package imports:';
   String projectImportComment(bool emojis) => '//${emojis ? ' 🌎 ' : ' '}Project imports:';
+  String widgetImportComment(bool emojis) => '//${emojis ? ' 🧩 ' : ' '}Widget imports:';
 
   final beforeImportLines = <String>[];
   final afterImportLines = <String>[];
@@ -68,6 +69,7 @@ ImportSortData sortImports(
             lines[i] == flutterImportComment(true) ||
             lines[i] == packageImportComment(true) ||
             lines[i] == projectImportComment(true) ||
+            lines[i] == widgetImportComment(false) ||
             lines[i] == '// 📱 Flutter imports:') &&
         lines[i + 1].startsWith('import ') &&
         lines[i + 1].endsWith(';')) {
