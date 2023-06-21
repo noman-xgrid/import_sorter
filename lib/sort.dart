@@ -167,7 +167,12 @@ ImportSortData sortImports(
   }
 
   if (packageImports.isNotEmpty) {
-    if (dartImports.isNotEmpty || flutterImports.isNotEmpty) {
+    if (dartImports.isNotEmpty ||
+        flutterImports.isNotEmpty ||
+        widgetImports.isNotEmpty ||
+        constantImports.isNotEmpty ||
+        modelImports.isNotEmpty ||
+        controllerImports.isNotEmpty) {
       sortedLines.add('');
     }
     if (!noComments) sortedLines.add(packageImportComment(emojis));
