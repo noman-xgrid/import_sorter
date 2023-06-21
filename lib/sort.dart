@@ -14,10 +14,13 @@ ImportSortData sortImports(
   String? filePath,
 }) {
   String dartImportComment(bool emojis) => '//${emojis ? ' 🎯 ' : ' '}Dart imports:';
-  String flutterImportComment(bool emojis) => '//${emojis ? ' 🐦 ' : ' '}Flutter imports';
-  String packageImportComment(bool emojis) => '//${emojis ? ' 📦 ' : ' '}Package imports';
-  String projectImportComment(bool emojis) => '//${emojis ? ' 🌎 ' : ' '}Project imports';
+  String flutterImportComment(bool emojis) => '//${emojis ? ' 🐦 ' : ' '}Flutter imports:';
+  String packageImportComment(bool emojis) => '//${emojis ? ' 📦 ' : ' '}Package imports:';
+  String projectImportComment(bool emojis) => '//${emojis ? ' 🌎 ' : ' '}Project imports:';
   String widgetImportComment(bool emojis) => '//${emojis ? ' 🧩 ' : ' '}Widget imports:';
+  String constantImportComment(bool emojis) => '//${emojis ? ' 🧱 ' : ' '}Constants imports:';
+  String modelImportComment(bool emojis) => '//${emojis ? ' 📦 ' : ' '}Model imports:';
+  String controllerImportComment(bool emojis) => '//${emojis ? ' 📦 ' : ' '}Controller imports:';
 
   final beforeImportLines = <String>[];
   final afterImportLines = <String>[];
@@ -28,6 +31,9 @@ ImportSortData sortImports(
   final projectRelativeImports = <String>[];
   final projectImports = <String>[];
   final widgetImports = <String>[];
+  final constantImports = <String>[];
+  final modelImports = <String>[];
+  final controllerImports = <String>[];
 
   bool noImports() =>
       dartImports.isEmpty &&
@@ -35,6 +41,9 @@ ImportSortData sortImports(
       packageImports.isEmpty &&
       projectImports.isEmpty &&
       widgetImports.isEmpty &&
+      constantImports.isEmpty &&
+      modelImports.isEmpty &&
+      controllerImports.isEmpty &&
       projectRelativeImports.isEmpty;
 
   var isMultiLineString = false;
@@ -53,10 +62,16 @@ ImportSortData sortImports(
         flutterImports.add(lines[i]);
       } else if (lines[i].contains('package:$package_name/')) {
         projectImports.add(lines[i]);
+      } else if (lines[i].contains('widget')) {
+        widgetImports.add(lines[i]);
+      } else if (lines[i].contains('constant') || lines[i].contains('config')) {
+        constantImports.add(lines[i]);
+      } else if (lines[i].contains('model')) {
+        modelImports.add(lines[i]);
+      } else if (lines[i].contains('controller')) {
+        controllerImports.add(lines[i]);
       } else if (lines[i].contains('package:')) {
         packageImports.add(lines[i]);
-      } else if (lines[i].contains('widget:')) {
-        widgetImports.add(lines[i]);
       } else {
         projectRelativeImports.add(lines[i]);
       }
@@ -122,6 +137,35 @@ ImportSortData sortImports(
     widgetImports.sort();
     sortedLines.addAll(widgetImports);
   }
+  if (constantImports.isNotEmpty) {
+    if (dartImports.isNotEmpty || flutterImports.isNotEmpty || widgetImports.isNotEmpty) {
+      sortedLines.add('');
+    }
+    if (!noComments) sortedLines.add(constantImportComment(emojis));
+    constantImports.sort();
+    sortedLines.addAll(constantImports);
+  }
+  if (modelImports.isNotEmpty) {
+    if (dartImports.isNotEmpty || flutterImports.isNotEmpty || widgetImports.isNotEmpty || constantImports.isNotEmpty) {
+      sortedLines.add('');
+    }
+    if (!noComments) sortedLines.add(modelImportComment(emojis));
+    modelImports.sort();
+    sortedLines.addAll(modelImports);
+  }
+  if (controllerImports.isNotEmpty) {
+    if (dartImports.isNotEmpty ||
+        flutterImports.isNotEmpty ||
+        widgetImports.isNotEmpty ||
+        constantImports.isNotEmpty ||
+        modelImports.isNotEmpty) {
+      sortedLines.add('');
+    }
+    if (!noComments) sortedLines.add(controllerImportComment(emojis));
+    controllerImports.sort();
+    sortedLines.addAll(controllerImports);
+  }
+
   if (packageImports.isNotEmpty) {
     if (dartImports.isNotEmpty || flutterImports.isNotEmpty) {
       sortedLines.add('');
