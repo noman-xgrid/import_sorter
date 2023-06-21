@@ -53,10 +53,10 @@ ImportSortData sortImports(
         flutterImports.add(lines[i]);
       } else if (lines[i].contains('package:$package_name/')) {
         projectImports.add(lines[i]);
-      } else if (lines[i].contains('widget')) {
-        widgetImports.add(lines[i]);
       } else if (lines[i].contains('package:')) {
         packageImports.add(lines[i]);
+      } else if (lines[i].contains('widget:')) {
+        widgetImports.add(lines[i]);
       } else {
         projectRelativeImports.add(lines[i]);
       }
