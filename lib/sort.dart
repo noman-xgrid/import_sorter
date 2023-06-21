@@ -192,8 +192,6 @@ ImportSortData sortImports(
 
     if (!noComments) sortedLines.add(projectImportComment(emojis));
     projectImports.sort();
-    widgetImports.sort();
-
     projectRelativeImports.sort();
     sortedLines.addAll(projectImports);
     sortedLines.addAll(projectRelativeImports);
