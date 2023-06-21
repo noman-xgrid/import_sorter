@@ -14,9 +14,9 @@ ImportSortData sortImports(
   String? filePath,
 }) {
   String dartImportComment(bool emojis) => '//${emojis ? ' 🎯 ' : ' '}Dart imports:';
-  String flutterImportComment(bool emojis) => '//${emojis ? ' 🐦 ' : ' '}Flutter imports:';
-  String packageImportComment(bool emojis) => '//${emojis ? ' 📦 ' : ' '}Package imports:';
-  String projectImportComment(bool emojis) => '//${emojis ? ' 🌎 ' : ' '}Project imports:';
+  String flutterImportComment(bool emojis) => '//${emojis ? ' 🐦 ' : ' '}Flutter imports';
+  String packageImportComment(bool emojis) => '//${emojis ? ' 📦 ' : ' '}Package imports';
+  String projectImportComment(bool emojis) => '//${emojis ? ' 🌎 ' : ' '}Project imports';
   String widgetImportComment(bool emojis) => '//${emojis ? ' 🧩 ' : ' '}Widget imports:';
 
   final beforeImportLines = <String>[];
