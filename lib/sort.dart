@@ -131,14 +131,14 @@ ImportSortData sortImports(
     flutterImports.sort();
     sortedLines.addAll(flutterImports);
   }
-  if (widgetImports.isNotEmpty) {
+  if (packageImports.isNotEmpty) {
     if (dartImports.isNotEmpty || flutterImports.isNotEmpty) sortedLines.add('');
-    if (!noComments) sortedLines.add(widgetImportComment(emojis));
-    widgetImports.sort();
-    sortedLines.addAll(widgetImports);
+    if (!noComments) sortedLines.add(packageImportComment(emojis));
+    packageImports.sort();
+    sortedLines.addAll(packageImports);
   }
   if (constantImports.isNotEmpty) {
-    if (dartImports.isNotEmpty || flutterImports.isNotEmpty || widgetImports.isNotEmpty) {
+    if (dartImports.isNotEmpty || flutterImports.isNotEmpty || packageImports.isNotEmpty) {
       sortedLines.add('');
     }
     if (!noComments) sortedLines.add(constantImportComment(emojis));
@@ -146,7 +146,10 @@ ImportSortData sortImports(
     sortedLines.addAll(constantImports);
   }
   if (modelImports.isNotEmpty) {
-    if (dartImports.isNotEmpty || flutterImports.isNotEmpty || widgetImports.isNotEmpty || constantImports.isNotEmpty) {
+    if (dartImports.isNotEmpty ||
+        flutterImports.isNotEmpty ||
+        packageImports.isNotEmpty ||
+        constantImports.isNotEmpty) {
       sortedLines.add('');
     }
     if (!noComments) sortedLines.add(modelImportComment(emojis));
@@ -156,7 +159,7 @@ ImportSortData sortImports(
   if (controllerImports.isNotEmpty) {
     if (dartImports.isNotEmpty ||
         flutterImports.isNotEmpty ||
-        widgetImports.isNotEmpty ||
+        packageImports.isNotEmpty ||
         constantImports.isNotEmpty ||
         modelImports.isNotEmpty) {
       sortedLines.add('');
@@ -166,29 +169,26 @@ ImportSortData sortImports(
     sortedLines.addAll(controllerImports);
   }
 
-  if (packageImports.isNotEmpty) {
+  if (widgetImports.isNotEmpty) {
     if (dartImports.isNotEmpty ||
         flutterImports.isNotEmpty ||
-        widgetImports.isNotEmpty ||
+        packageImports.isNotEmpty ||
         constantImports.isNotEmpty ||
         modelImports.isNotEmpty ||
-        controllerImports.isNotEmpty) {
-      sortedLines.add('');
-    }
-    if (!noComments) sortedLines.add(packageImportComment(emojis));
-    packageImports.sort();
-    sortedLines.addAll(packageImports);
+        controllerImports.isNotEmpty) sortedLines.add('');
+    if (!noComments) sortedLines.add(widgetImportComment(emojis));
+    widgetImports.sort();
+    sortedLines.addAll(widgetImports);
   }
+
   if (projectImports.isNotEmpty || projectRelativeImports.isNotEmpty) {
     if (dartImports.isNotEmpty ||
         flutterImports.isNotEmpty ||
         packageImports.isNotEmpty ||
-        widgetImports.isNotEmpty ||
         constantImports.isNotEmpty ||
         modelImports.isNotEmpty ||
-        controllerImports.isNotEmpty) {
-      sortedLines.add('');
-    }
+        controllerImports.isNotEmpty ||
+        widgetImports.isNotEmpty) sortedLines.add('');
 
     if (!noComments) sortedLines.add(projectImportComment(emojis));
     projectImports.sort();
