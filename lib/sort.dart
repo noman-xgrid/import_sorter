@@ -65,11 +65,12 @@ ImportSortData sortImports(
             lines[i] == flutterImportComment(false) ||
             lines[i] == packageImportComment(false) ||
             lines[i] == projectImportComment(false) ||
+            lines[i] == widgetImportComment(false) ||
             lines[i] == dartImportComment(true) ||
             lines[i] == flutterImportComment(true) ||
             lines[i] == packageImportComment(true) ||
             lines[i] == projectImportComment(true) ||
-            lines[i] == widgetImportComment(false) ||
+            lines[i] == widgetImportComment(true) ||
             lines[i] == '// 📱 Flutter imports:') &&
         lines[i + 1].startsWith('import ') &&
         lines[i + 1].endsWith(';')) {
@@ -115,6 +116,14 @@ ImportSortData sortImports(
     flutterImports.sort();
     sortedLines.addAll(flutterImports);
   }
+  if (widgetImports.isNotEmpty) {
+    if (dartImports.isNotEmpty || flutterImports.isNotEmpty) {
+      sortedLines.add('');
+    }
+    if (!noComments) sortedLines.add(widgetImportComment(emojis));
+    widgetImports.sort();
+    sortedLines.addAll(widgetImports);
+  }
   if (packageImports.isNotEmpty) {
     if (dartImports.isNotEmpty || flutterImports.isNotEmpty) {
       sortedLines.add('');
@@ -127,6 +136,7 @@ ImportSortData sortImports(
     if (dartImports.isNotEmpty || flutterImports.isNotEmpty || packageImports.isNotEmpty || widgetImports.isNotEmpty) {
       sortedLines.add('');
     }
+
     if (!noComments) sortedLines.add(projectImportComment(emojis));
     projectImports.sort();
     widgetImports.sort();
