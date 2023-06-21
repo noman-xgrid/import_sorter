@@ -117,9 +117,7 @@ ImportSortData sortImports(
     sortedLines.addAll(flutterImports);
   }
   if (widgetImports.isNotEmpty) {
-    if (dartImports.isNotEmpty || flutterImports.isNotEmpty) {
-      sortedLines.add('');
-    }
+    if (dartImports.isNotEmpty || flutterImports.isNotEmpty) sortedLines.add('');
     if (!noComments) sortedLines.add(widgetImportComment(emojis));
     widgetImports.sort();
     sortedLines.addAll(widgetImports);
