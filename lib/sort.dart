@@ -16,11 +16,11 @@ ImportSortData sortImports(
   String dartImportComment(bool emojis) => '//${emojis ? ' 🎯 ' : ' '}Dart imports:';
   String flutterImportComment(bool emojis) => '//${emojis ? ' 🐦 ' : ' '}Flutter imports:';
   String packageImportComment(bool emojis) => '//${emojis ? ' 📦 ' : ' '}Package imports:';
-  String projectImportComment(bool emojis) => '//${emojis ? ' 🌎 ' : ' '}Project imports:';
-  String widgetImportComment(bool emojis) => '//${emojis ? ' 🧩 ' : ' '}Widget imports:';
   String constantImportComment(bool emojis) => '//${emojis ? ' 🧱 ' : ' '}Constants imports:';
   String modelImportComment(bool emojis) => '//${emojis ? ' 📦 ' : ' '}Model imports:';
   String controllerImportComment(bool emojis) => '//${emojis ? ' 📦 ' : ' '}Controller imports:';
+  String widgetImportComment(bool emojis) => '//${emojis ? ' 🧩 ' : ' '}Widget imports:';
+  String projectImportComment(bool emojis) => '//${emojis ? ' 🌎 ' : ' '}Project imports:';
 
   final beforeImportLines = <String>[];
   final afterImportLines = <String>[];
